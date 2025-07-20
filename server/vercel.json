@@ -1,0 +1,179 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "server.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/get-upload-url",
+      "dest": "/server.js"
+    },
+    {
+      "src": "/signup",
+      "dest": "/server.js"
+    },
+    {
+      "src": "/signin",
+      "dest": "/server.js"
+    },
+    {
+      "src": "/google-auth",
+      "dest": "/server.js"
+    },
+    {
+      "src": "/get-profile",
+      "dest": "/server.js"
+    },
+    {
+      "src": "/update-profile",
+      "dest": "/server.js"
+    },
+    {
+      "src": "/change-password",
+      "dest": "/server.js"
+    },
+    {
+      "src": "/create-blog",
+      "dest": "/server.js"
+    },
+    {
+      "src": "/get-blogs",
+      "dest": "/server.js"
+    },
+    {
+      "src": "/get-blog/(.*)",
+      "dest": "/server.js"
+    },
+    {
+      "src": "/delete-blog",
+      "dest": "/server.js"
+    },
+    {
+      "src": "/update-blog",
+      "dest": "/server.js"
+    },
+    {
+      "src": "/search-blogs",
+      "dest": "/server.js"
+    },
+    {
+      "src": "/get-profile-blogs/(.*)",
+      "dest": "/server.js"
+    },
+    {
+      "src": "/like-blog",
+      "dest": "/server.js"
+    },
+    {
+      "src": "/isliked-by-user",
+      "dest": "/server.js"
+    },
+    {
+      "src": "/add-comment",
+      "dest": "/server.js"
+    },
+    {
+      "src": "/get-blog-comments/(.*)",
+      "dest": "/server.js"
+    },
+    {
+      "src": "/delete-comment",
+      "dest": "/server.js"
+    },
+    {
+      "src": "/get-notifications",
+      "dest": "/server.js"
+    },
+    {
+      "src": "/mark-notification",
+      "dest": "/server.js"
+    },
+    {
+      "src": "/delete-all-notifications",
+      "dest": "/server.js"
+    },
+    {
+      "src": "/get-user-profile/(.*)",
+      "dest": "/server.js"
+    },
+    {
+      "src": "/follow-user",
+      "dest": "/server.js"
+    },
+    {
+      "src": "/unfollow-user",
+      "dest": "/server.js"
+    },
+    {
+      "src": "/get-search-users",
+      "dest": "/server.js"
+    },
+    {
+      "src": "/admin/overview",
+      "dest": "/server.js"
+    },
+    {
+      "src": "/admin/users",
+      "dest": "/server.js"
+    },
+    {
+      "src": "/admin/blogs",
+      "dest": "/server.js"
+    },
+    {
+      "src": "/admin/add-topic",
+      "dest": "/server.js"
+    },
+    {
+      "src": "/admin/get-topics",
+      "dest": "/server.js"
+    },
+    {
+      "src": "/admin/delete-topic",
+      "dest": "/server.js"
+    },
+    {
+      "src": "/admin/change-user-role",
+      "dest": "/server.js"
+    },
+    {
+      "src": "/admin/delete-user",
+      "dest": "/server.js"
+    },
+    {
+      "src": "/admin/delete-blog",
+      "dest": "/server.js"
+    },
+    {
+      "src": "/get-trending-blogs",
+      "dest": "/server.js"
+    },
+    {
+      "src": "/get-latest-blogs",
+      "dest": "/server.js"
+    },
+    {
+      "src": "/get-category-blogs/(.*)",
+      "dest": "/server.js"
+    },
+    {
+      "src": "/get-related-blogs/(.*)",
+      "dest": "/server.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/server.js"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production"
+  },
+  "functions": {
+    "server.js": {
+      "maxDuration": 30
+    }
+  }
+} 

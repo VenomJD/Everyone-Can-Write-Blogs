@@ -6,16 +6,13 @@ Crea un archivo `.env` en la carpeta `server/` con las siguientes variables:
 
 ```env
 # Database Configuration
-DB_HOST=localhost
-DB_PORT=27017
-DB_NAME=your_database_name
-DB_USER=your_username
-DB_PASSWORD=your_password
+MONGODB_URI=your_mongodb_connection_string
 
-# AWS Configuration (if using AWS services)
-AWS_ACCESS_KEY_ID=your_aws_access_key_id
-AWS_SECRET_ACCESS_KEY=your_aws_secret_access_key
-AWS_REGION=your_aws_region
+# S3 Configuration (AWS)
+S3_BUCKET_REGION=your_s3_bucket_region
+S3_ACCESS_KEY_ID=your_s3_access_key_id
+S3_SECRET_ACCESS_KEY=your_s3_secret_access_key
+S3_BUCKET_NAME=your_s3_bucket_name
 
 # Firebase Configuration
 FIREBASE_PROJECT_ID=your_firebase_project_id
@@ -27,7 +24,7 @@ PORT=3000
 NODE_ENV=development
 
 # JWT Secret
-JWT_SECRET=your_jwt_secret_key
+JWT_SECRET_KEY=your_jwt_secret_key
 
 # Other Configuration
 CORS_ORIGIN=http://localhost:3000

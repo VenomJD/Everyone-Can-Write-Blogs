@@ -15,16 +15,16 @@ Configura las siguientes variables de entorno en el dashboard de Vercel:
 
 ```env
 # Database
-DB_LOCATION=your_mongodb_connection_string
+MONGODB_URI=your_mongodb_connection_string
 
 # JWT
-SECRET_ACCESS_KEY=your_jwt_secret
+JWT_SECRET_KEY=your_jwt_secret
 
-# AWS S3
-AWS_BUCKET_REGION=your_aws_region
-AWS_ACCESS_KEY=your_aws_access_key
-AWS_SECRET_ACCESS_KEY=your_aws_secret_key
-AWS_BUCKET_NAME=your_s3_bucket_name
+# S3 (AWS)
+S3_BUCKET_REGION=your_s3_bucket_region
+S3_ACCESS_KEY_ID=your_s3_access_key_id
+S3_SECRET_ACCESS_KEY=your_s3_secret_access_key
+S3_BUCKET_NAME=your_s3_bucket_name
 
 # Firebase (opcional si usas archivo JSON)
 FIREBASE_PROJECT_ID=your_firebase_project_id

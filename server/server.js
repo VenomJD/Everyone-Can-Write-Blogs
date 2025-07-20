@@ -29,15 +29,15 @@ let passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/; // regex for pass
 server.use(express.json());
 server.use(cors())
 
-mongoose.connect(process.env.DB_LOCATION, {
+mongoose.connect(process.env.MONGODB_URI, {
     autoIndex: true
 })
 
 // setting up s3 bucket
 const s3 = new aws.S3({
-    region: process.env.AWS_BUCKET_REGION,
-    accessKeyId: process.env.AWS_ACCESS_KEY,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+    region: process.env.S3_BUCKET_REGION,
+    accessKeyId: process.env.S3_ACCESS_KEY_ID,
+    secretAccessKey: process.env.S3_SECRET_ACCESS_KEY
 })
 
 const generateUploadURL = async () => {
@@ -46,7 +46,7 @@ const generateUploadURL = async () => {
     const imageName = `${nanoid()}-${date.getTime()}.jpeg`;
 
     return await s3.getSignedUrlPromise('putObject', {
-        Bucket: process.env.AWS_BUCKET_NAME,
+        Bucket: process.env.S3_BUCKET_NAME,
         Key: imageName,
         Expires: 1000,
         ContentType: "image/jpeg"
@@ -63,7 +63,7 @@ const verifyJWT = (req, res, next) => {
         return res.status(401).json({ error: "No access token" })
     }
 
-    jwt.verify(token, process.env.SECRET_ACCESS_KEY, (err, user) => {
+    jwt.verify(token, process.env.JWT_SECRET_KEY, (err, user) => {
         if(err) {
             return res.status(403).json({ error: "Access token is invalid" })
         }
@@ -77,7 +77,7 @@ const verifyJWT = (req, res, next) => {
 
 const formatDatatoSend = (user) => {
 
-    const access_token = jwt.sign({ id: user._id, admin: user.admin }, process.env.SECRET_ACCESS_KEY)
+    const access_token = jwt.sign({ id: user._id, admin: user.admin }, process.env.JWT_SECRET_KEY)
 
     return {
         access_token,

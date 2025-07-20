@@ -1,14 +1,15 @@
 import { initializeApp } from "firebase/app";
 import { GoogleAuthProvider, getAuth, signInWithPopup } from 'firebase/auth'
 
+// Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyCTRuGgvs_7agVjYZ9l6cMq3kOpUxZ9cH4",
-  authDomain: "react-js-blog-website-yt.firebaseapp.com",
-  projectId: "react-js-blog-website-yt",
-  storageBucket: "react-js-blog-website-yt.appspot.com",
-  messagingSenderId: "511273583112",
-  appId: "1:511273583112:web:8f691fcae60cbc4aa807bd"
-};
+    apiKey: "AIzaSyCtg9PEP2jvdOT46-ezxR5G0kGhycT6lXY",
+    authDomain: "blogsv2-e07f9.firebaseapp.com",
+    projectId: "blogsv2-e07f9",
+    storageBucket: "blogsv2-e07f9.firebasestorage.app",
+    messagingSenderId: "517897202897",
+    appId: "1:517897202897:web:57cc50b3a10d154e1c69f0"
+  };
 
 const app = initializeApp(firebaseConfig);
 

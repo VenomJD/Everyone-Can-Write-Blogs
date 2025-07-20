@@ -6,7 +6,7 @@ import { nanoid } from 'nanoid';
 import jwt from 'jsonwebtoken';
 import cors from 'cors';
 import admin from "firebase-admin";
-import serviceAccountKey from "add your json file path here" assert { type: "json" }
+import serviceAccountKey from "./blogsv2-e07f9-firebase-adminsdk-3j0f9-aeae55afec.json" with { type: "json" };
 import { getAuth } from "firebase-admin/auth";
 import aws from "aws-sdk";
 
@@ -69,6 +69,7 @@ const verifyJWT = (req, res, next) => {
         }
 
         req.user = user.id
+        req.admin = user.admin
         next()
     })
 
@@ -76,13 +77,14 @@ const verifyJWT = (req, res, next) => {
 
 const formatDatatoSend = (user) => {
 
-    const access_token = jwt.sign({ id: user._id }, process.env.SECRET_ACCESS_KEY)
+    const access_token = jwt.sign({ id: user._id, admin: user.admin }, process.env.SECRET_ACCESS_KEY)
 
     return {
         access_token,
         profile_img: user.personal_info.profile_img,
         username: user.personal_info.username,
-        fullname: user.personal_info.fullname
+        fullname: user.personal_info.fullname,
+        isAdmin: user.admin
     }
 }
 
@@ -901,47 +903,66 @@ server.post("/all-notifications-count", verifyJWT, (req, res) => {
 
 server.post("/user-written-blogs", verifyJWT, (req, res) => {
 
-    let user_id = req.user;
-
     let { page, draft, query, deletedDocCount } = req.body;
-
     let maxLimit = 5;
     let skipDocs = (page - 1) * maxLimit;
 
-    if(deletedDocCount){
+    if (deletedDocCount) {
         skipDocs -= deletedDocCount;
     }
 
-    Blog.find({ author: user_id, draft, title: new RegExp(query, 'i') })
-    .skip(skipDocs)
-    .limit(maxLimit)
-    .sort({ publishedAt: -1 })
-    .select(" title banner publishedAt blog_id activity des draft -_id ")
-    .then(blogs => {
-        return res.status(200).json({ blogs })
-    })
-    .catch(err => {
-        return res.status(500).json({ error: err.message });
-    })
+    // Ajustar el filtro según el rol del usuario
+    let filter = {
+        draft,
+        title: new RegExp(query, 'i'),
+    };
 
-})
+    if (!req.admin) {
+        // Si no es administrador, filtrar por el autor
+        filter.author = req.user;
+    }
+
+    Blog.find(filter)
+        .skip(skipDocs)
+        .limit(maxLimit)
+        .sort({ publishedAt: -1 })
+        .select("title banner publishedAt blog_id activity des draft -_id")
+        .then(blogs => {
+            return res.status(200).json({ blogs });
+        })
+        .catch(err => {
+            return res.status(500).json({ error: err.message });
+        });
+
+});
+
 
 server.post("/user-written-blogs-count", verifyJWT, (req, res) => {
 
-    let user_id = req.user;
-
     let { draft, query } = req.body;
 
-    Blog.countDocuments({ author: user_id, draft, title: new RegExp(query, 'i') })
-    .then(count => {
-        return res.status(200).json({ totalDocs: count })
-    })
-    .catch(err => {
-        console.log(err.message);
-        return res.status(500).json({ error: err.message });
-    })
+    // Ajustar el filtro según el rol del usuario
+    let filter = {
+        draft,
+        title: new RegExp(query, 'i'),
+    };
 
-})
+    if (!req.admin) {
+        // Si no es administrador, contar solo los blogs del usuario
+        filter.author = req.user;
+    }
+
+    Blog.countDocuments(filter)
+        .then(count => {
+            return res.status(200).json({ totalDocs: count });
+        })
+        .catch(err => {
+            console.log(err.message);
+            return res.status(500).json({ error: err.message });
+        });
+
+});
+
 
 server.post("/delete-blog", verifyJWT, (req, res) => {
 
